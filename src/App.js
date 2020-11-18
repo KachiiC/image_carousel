@@ -1,32 +1,37 @@
 import React, {useState} from 'react'
 // CSS
+import "./App.css"
 // Components
 import ImageSlider from './Components/ImageSlider'
 
 
 const App = () => {
 
-    const [query, setQuery] = useState(""); 
-    const [images, setImages] = useState([]); 
+  const [query, setQuery] = useState(""); 
+  const [images, setImages] = useState([]); 
+  const [showResults, setShowResults] = useState(false)
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        fetch(
-          `https://pixabay.com/api/?key=18866569-6f34f2906812f25069d16a3da&q=${query}`
-        ) 
-          .then((response) => response.json())
-          .then(({ hits }) => hits.map(({ webformatURL }) => webformatURL)) 
-          .then(setImages);
-      };
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      fetch(
+        `https://pixabay.com/api/?key=18866569-6f34f2906812f25069d16a3da&q=${query}`
+      ) 
+        .then((response) => response.json())
+        .then(({ hits }) => hits.map(({ webformatURL }) => webformatURL)) 
+        .then(setImages)
+        .then(setShowResults(true));
+    };
+
 
     return (
-        <div>
-          <h1>Image Slider</h1>
+        <div className="app">
           <form onSubmit={handleSubmit}>
               <input type="text" onChange={(e) => setQuery(e.target.value)} />
               <input type="submit" value="Search" />
           </form>
-          <ImageSlider images={images} />
+            { showResults && (
+              <ImageSlider images={images} />
+            )}
         </div>
     )
 }

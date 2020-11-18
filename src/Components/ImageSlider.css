@@ -1,0 +1,13 @@
+.carousel-image {
+    max-height: 169px;
+    min-height: 169px;
+    max-width: 300px;
+    min-width: 300px;
+    padding: 10px;
+}
+
+.toggle-button {
+    padding: 5px;
+    width: 80px;
+    margin: 25px;
+}

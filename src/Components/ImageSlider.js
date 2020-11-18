@@ -1,31 +1,53 @@
 import React, {useState} from 'react'
+// CSS
+import './ImageSlider.css'
 
 
 const ImageSlider = ({ images }) => { 
-    const [index, setIndex] = useState(0); 
-  
-    const slideRight = () => {
-      setIndex((index + 1) % images.length);
-    };
-  
-    const slideLeft = () => {
-      const nextIndex = index - 1;
-      if (nextIndex < 0) {
-        setIndex(images.length - 1); 
-      } else {
-        setIndex(nextIndex);
-      }
-    };
+    const [imageIndex, setImageIndex] = useState(1); 
+
+
+    const nextImage = () => {
+      (imageIndex === images.length - 3) ? 
+          setImageIndex(0):setImageIndex(prevWord => prevWord + 1);
+    }
+
+    const previousImage = () => {
+        (imageIndex === 0) ? 
+          setImageIndex(images.length - 3):setImageIndex(prevWord => prevWord - 1);
+    }
+
+    const displayedImages = (
+      <div>
+        <img 
+          src={images[imageIndex]} 
+          alt="this-pic" 
+          className="carousel-image"
+        />
+        <img 
+          src={images[imageIndex + 1]} 
+          alt="this-pic" 
+          className="carousel-image"
+        />
+        <img 
+          src={images[imageIndex + 2]} 
+          alt="this-pic" 
+          className="carousel-image"
+        />
+      </div>
+    )
   
     return (
-      images.length > 0 && (
+        <>
+        <h1>Images</h1>
         <div>
-          <button onClick={slideLeft}>{"<"}</button>
-          <img src={images[index]} alt={index} />
-          <button onClick={slideRight}>{">"}</button>
+        {displayedImages}
+          <button onClick={previousImage} className="toggle-button"> Previous </button>
+          <button onClick={nextImage} className="toggle-button"> Next </button>
         </div>
-      )
+        </>
     );
+    
   };
   
   export default ImageSlider;
